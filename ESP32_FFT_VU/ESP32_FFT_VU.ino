@@ -2,8 +2,8 @@
 // Adjusted to allow brightness changes on press+hold, Auto-cycle for 3 button presses within 2 seconds
 // Edited to add Neomatrix support for easier compatibility with different layouts.
 
-#include <FastLED_NeoMatrix.h>
 #include <arduinoFFT.h>
+#include <FastLED_NeoMatrix.h>
 #include <EasyButton.h>
 
 #define SAMPLES         1024          // Must be a power of 2
@@ -21,7 +21,7 @@ const int BRIGHTNESS_SETTINGS[3] = {5, 70, 200};  // 3 Integer array for 3 brigh
 #define NUM_BANDS       16            // To change this, you will need to change the bunch of if statements describing the mapping from bins to bands
 #define NOISE           500           // Used as a crude noise filter, values below this are ignored
 const uint8_t kMatrixWidth = 16;                          // Matrix width
-const uint8_t kMatrixHeight = 16;                         // Matrix height
+const uint8_t kMatrixHeight = 7;                         // Matrix height
 #define NUM_LEDS       (kMatrixWidth * kMatrixHeight)     // Total number of LEDs
 #define BAR_WIDTH      (kMatrixWidth  / (NUM_BANDS - 1))  // If width >= 8 light 1 LED width per bar, >= 16 light 2 LEDs width bar etc
 #define TOP            (kMatrixHeight - 0)                // Don't allow the bars to go offscreen
@@ -32,10 +32,11 @@ unsigned int sampling_period_us;
 byte peak[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};              // The length of these arrays must be >= NUM_BANDS
 int oldBarHeights[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 int bandValues[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-double vReal[SAMPLES];
-double vImag[SAMPLES];
+float vReal[SAMPLES];
+float vImag[SAMPLES];
 unsigned long newTime;
-arduinoFFT FFT = arduinoFFT(vReal, vImag, SAMPLES, SAMPLING_FREQ);
+ArduinoFFT<float> FFT = ArduinoFFT<float>(vReal, vImag, SAMPLES, SAMPLING_FREQ);
+//ArduinoFFT<float> FFT = ArduinoFFT<float>(vReal, vImag, samples, samplingFrequency);
 
 // Button stuff
 int buttonPushCounter = 0;
@@ -133,10 +134,10 @@ void loop() {
   }
 
   // Compute FFT
-  FFT.DCRemoval();
-  FFT.Windowing(FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-  FFT.Compute(FFT_FORWARD);
-  FFT.ComplexToMagnitude();
+  FFT.dcRemoval();
+  FFT.windowing(FFT_WIN_TYP_HAMMING, FFT_FORWARD);
+  FFT.compute(FFT_FORWARD);
+  FFT.complexToMagnitude();
 
   // Analyse FFT results
   for (int i = 2; i < (SAMPLES/2); i++){       // Don't use sample 0 and only first SAMPLES/2 are usable. Each array element represents a frequency bin and its value the amplitude.
