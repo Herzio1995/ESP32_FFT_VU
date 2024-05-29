@@ -20,7 +20,7 @@ const int BRIGHTNESS_SETTINGS[3] = {5, 70, 200};  // 3 Integer array for 3 brigh
 #define LED_VOLTS       5             // Usually 5 or 12
 #define NUM_BANDS       16            // To change this, you will need to change the bunch of if statements describing the mapping from bins to bands
 #define NOISE           500           // Used as a crude noise filter, values below this are ignored
-const uint8_t kMatrixWidth = 16;                          // Matrix width
+const uint8_t kMatrixWidth = 20;                          // Matrix width
 const uint8_t kMatrixHeight = 7;                         // Matrix height
 #define NUM_LEDS       (kMatrixWidth * kMatrixHeight)     // Total number of LEDs
 #define BAR_WIDTH      (kMatrixWidth  / (NUM_BANDS - 1))  // If width >= 8 light 1 LED width per bar, >= 16 light 2 LEDs width bar etc
@@ -151,7 +151,7 @@ void loop() {
       if (i>27  && i<=55 ) bandValues[4]  += (int)vReal[i];
       if (i>55  && i<=112) bandValues[5]  += (int)vReal[i];
       if (i>112 && i<=229) bandValues[6]  += (int)vReal[i];
-      if (i>229          ) bandValues[7]  += (int)vReal[i];*/
+      if (i>229          ) bandValues[7]  += (int)vReal[i];
 
     //16 bands, 12kHz top band
       if (i<=2 )           bandValues[0]  += (int)vReal[i];
@@ -170,6 +170,30 @@ void loop() {
       if (i>135 && i<=189) bandValues[13] += (int)vReal[i];
       if (i>189 && i<=264) bandValues[14] += (int)vReal[i];
       if (i>264          ) bandValues[15] += (int)vReal[i];
+      */
+
+      //20 bands, 12kHz top band
+      if (i<=2 )           bandValues[0]  += (int)vReal[i];
+      if (i>2   && i<=3  ) bandValues[1]  += (int)vReal[i];
+      if (i>3   && i<=4  ) bandValues[2]  += (int)vReal[i];
+      if (i>4   && i<=5  ) bandValues[3]  += (int)vReal[i];
+      if (i>5   && i<=7  ) bandValues[4]  += (int)vReal[i];
+      if (i>7   && i<=9  ) bandValues[5]  += (int)vReal[i];
+      if (i>9   && i<=11  ) bandValues[6]  += (int)vReal[i];
+      if (i>11   && i<=15  ) bandValues[7]  += (int)vReal[i];
+      if (i>15   && i<=19  ) bandValues[8]  += (int)vReal[i];
+      if (i>19   && i<=25  ) bandValues[9]  += (int)vReal[i];
+      if (i>25   && i<=33  ) bandValues[10]  += (int)vReal[i];
+      if (i>33   && i<=43  ) bandValues[11]  += (int)vReal[i];
+      if (i>43   && i<=56  ) bandValues[12]  += (int)vReal[i];
+      if (i>56   && i<=73  ) bandValues[13]  += (int)vReal[i];
+      if (i>73   && i<=95  ) bandValues[14]  += (int)vReal[i];
+      if (i>95   && i<=123  ) bandValues[15]  += (int)vReal[i];
+      if (i>123   && i<=160  ) bandValues[16]  += (int)vReal[i];
+      if (i>160   && i<=209  ) bandValues[17]  += (int)vReal[i];
+      if (i>209   && i<=272  ) bandValues[18]  += (int)vReal[i];
+      if (i>272             ) bandValues[19]  += (int)vReal[i];
+
     }
   }
 
