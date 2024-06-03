@@ -18,7 +18,7 @@
 #define MAX_MILLIAMPS   2000          // Careful with the amount of power here if running off USB port
 const int BRIGHTNESS_SETTINGS[3] = {5, 70, 200};  // 3 Integer array for 3 brightness settings (based on pressing+holding BTN_PIN)
 #define LED_VOLTS       5             // Usually 5 or 12
-#define NUM_BANDS       16            // To change this, you will need to change the bunch of if statements describing the mapping from bins to bands
+#define NUM_BANDS       20           // To change this, you will need to change the bunch of if statements describing the mapping from bins to bands
 #define NOISE           500           // Used as a crude noise filter, values below this are ignored
 const uint8_t kMatrixWidth = 20;                          // Matrix width
 const uint8_t kMatrixHeight = 7;                         // Matrix height
@@ -29,9 +29,9 @@ const uint8_t kMatrixHeight = 7;                         // Matrix height
 
 // Sampling and FFT stuff
 unsigned int sampling_period_us;
-byte peak[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};              // The length of these arrays must be >= NUM_BANDS
-int oldBarHeights[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-int bandValues[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+byte peak[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};              // The length of these arrays must be >= NUM_BANDS
+int oldBarHeights[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+int bandValues[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 float vReal[SAMPLES];
 float vImag[SAMPLES];
 unsigned long newTime;
@@ -152,7 +152,7 @@ void loop() {
       if (i>55  && i<=112) bandValues[5]  += (int)vReal[i];
       if (i>112 && i<=229) bandValues[6]  += (int)vReal[i];
       if (i>229          ) bandValues[7]  += (int)vReal[i];
-
+    
     //16 bands, 12kHz top band
       if (i<=2 )           bandValues[0]  += (int)vReal[i];
       if (i>2   && i<=3  ) bandValues[1]  += (int)vReal[i];
@@ -170,6 +170,7 @@ void loop() {
       if (i>135 && i<=189) bandValues[13] += (int)vReal[i];
       if (i>189 && i<=264) bandValues[14] += (int)vReal[i];
       if (i>264          ) bandValues[15] += (int)vReal[i];
+      
       */
 
       //20 bands, 12kHz top band
